@@ -23,15 +23,16 @@ class StatsOverview extends BaseWidget
         $lowStockItems = InventoryItem::whereColumn('current_stock', '<=', 'min_stock')->where('min_stock', '>', 0)->count();
         $openTickets = SupportTicket::whereIn('status', ['open', 'assigned', 'in_progress'])->count();
 
+        $symbols = ['USD' => '$', 'EUR' => '€', 'GBP' => '£', 'NGN' => '₦'];
+        $currency = Setting::getValue('currency', 'USD');
+        $currencySymbol = $symbols[$currency] ?? '$';
+
         return [
             Stat::make('Orders Today', $ordersToday)
                 ->description('Total orders placed')
                 ->descriptionIcon('heroicon-m-shopping-cart')
                 ->color('primary'),
 
-            $symbols = ['USD' => '$', 'EUR' => '€', 'GBP' => '£', 'NGN' => '₦'];
-            $currency = Setting::getValue('currency', 'USD');
-            $currencySymbol = $symbols[$currency] ?? '$';
             Stat::make('Revenue Today', $currencySymbol . number_format($revenueToday, 2))
                 ->description('Completed payments')
                 ->descriptionIcon('heroicon-m-currency-dollar')

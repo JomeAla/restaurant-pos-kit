@@ -21,7 +21,7 @@ class UserResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')->required()->maxLength(255),
-                Forms\Components\TextInput::make('email')->email()->required()->unique(ignoreRecord: true),
+                Forms\Components\TextInput::make('email')->required()->unique(ignoreRecord: true)->rules(['safe_email']),
                 Forms\Components\TextInput::make('phone')->tel()->maxLength(20),
                 Forms\Components\TextInput::make('password')->password()->required(fn (string $operation) => $operation === 'create')->dehydrated(fn ($state) => filled($state))->maxLength(255),
                 Forms\Components\TextInput::make('pin')->label('PIN (4 digits)')->numeric()->rules(['digits:4'])->unique(ignoreRecord: true),

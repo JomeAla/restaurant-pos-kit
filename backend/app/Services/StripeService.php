@@ -74,7 +74,7 @@ class StripeService
         }
     }
 
-    public function handleWebhook(string $payload, string $sigHeader, string $webhookSecret): array
+    public function handleWebhook(string $payload, ?string $sigHeader, string $webhookSecret): array
     {
         try {
             $event = \Stripe\Webhook::constructEvent($payload, $sigHeader, $webhookSecret);

@@ -29,7 +29,7 @@ class AuthController extends Controller
     public function login(Request $request): JsonResponse
     {
         $request->validate([
-            'email' => 'required|email',
+            'email' => 'required|safe_email',
             'password' => 'required|string',
         ]);
 
@@ -100,7 +100,7 @@ class AuthController extends Controller
 
         $validated = $request->validate([
             'name' => 'sometimes|string|max:255',
-            'email' => 'sometimes|email|max:255|unique:users,email,' . $user->id,
+            'email' => 'sometimes|safe_email|max:255|unique:users,email,' . $user->id,
             'phone' => 'sometimes|string|max:20',
             'password' => 'sometimes|string|min:8|confirmed',
             'current_password' => 'required_with:password|string',
@@ -119,7 +119,7 @@ class AuthController extends Controller
 
     public function forgotPassword(Request $request): JsonResponse
     {
-        $request->validate(['email' => 'required|email|exists:users,email']);
+        $request->validate(['email' => 'required|safe_email|exists:users,email']);
 
         $status = Password::sendResetLink($request->only('email'));
 
@@ -139,7 +139,7 @@ class AuthController extends Controller
     public function resetPassword(Request $request): JsonResponse
     {
         $request->validate([
-            'email' => 'required|email|exists:users,email',
+            'email' => 'required|safe_email|exists:users,email',
             'token' => 'required|string',
             'password' => 'required|string|min:8|confirmed',
         ]);
