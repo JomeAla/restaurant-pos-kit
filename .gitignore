@@ -34,6 +34,3 @@ npm-debug.log
 yarn-error.log
 
 # Exclude specific files from repo root
-plan.md
-todo.md
-git-setup.ps1
