@@ -1,0 +1,32 @@
+{
+  "apps": [
+    {
+      "name": "queue-worker",
+      "script": "php",
+      "args": "artisan queue:work --sleep=3 --tries=3 --max-time=3600",
+      "cwd": ".",
+      "autorestart": true,
+      "watch": false,
+      "max_restarts": 10,
+      "restart_delay": 5000,
+      "error_file": "storage/logs/pm2-queue-error.log",
+      "out_file": "storage/logs/pm2-queue-out.log",
+      "time": true
+    },
+    {
+      "name": "reverb",
+      "script": "artisan",
+      "args": "reverb:start --debug",
+      "cwd": ".",
+      "interpreter": "php",
+      "autorestart": true,
+      "watch": false,
+      "max_restarts": 10,
+      "restart_delay": 3000,
+      "error_file": "storage/logs/pm2-reverb-error.log",
+      "out_file": "storage/logs/pm2-reverb-out.log",
+      "max_memory_restart": "256M",
+      "time": true
+    }
+  ]
+}
