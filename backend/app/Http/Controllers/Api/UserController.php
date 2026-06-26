@@ -13,7 +13,7 @@ class UserController extends Controller
 {
     public function index(): JsonResponse
     {
-        return response()->json(User::with('role')->paginate(20));
+        return response()->json(User::with('role.permissions')->paginate(20));
     }
 
     public function store(Request $request): JsonResponse

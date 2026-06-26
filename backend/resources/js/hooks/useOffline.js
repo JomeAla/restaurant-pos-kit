@@ -18,14 +18,19 @@ export function useOffline() {
     useEffect(() => {
         const interval = setInterval(() => {
             if ('indexedDB' in window && isOnline) {
-                const request = indexedDB.open('pos-offline', 1);
-                request.onsuccess = (e) => {
-                    const db = e.target.result;
-                    const tx = db.transaction('orders', 'readonly');
-                    const store = tx.objectStore('orders');
-                    const count = store.count();
-                    count.onsuccess = () => setPendingSync(count.result);
-                };
+                try {
+                    const request = indexedDB.open('pos-offline', 1);
+                    request.onsuccess = (e) => {
+                        try {
+                            const db = e.target.result;
+                            if (!db.objectStoreNames.contains('orders')) return;
+                            const tx = db.transaction('orders', 'readonly');
+                            const store = tx.objectStore('orders');
+                            const count = store.count();
+                            count.onsuccess = () => setPendingSync(count.result);
+                        } catch {}
+                    };
+                } catch {}
             }
         }, 3000);
         return () => clearInterval(interval);

@@ -91,7 +91,7 @@ class AuthController extends Controller
 
     public function me(Request $request): JsonResponse
     {
-        return response()->json($request->user()->load('role'));
+        return response()->json($request->user()->load('role.permissions'));
     }
 
     public function updateProfile(Request $request): JsonResponse
