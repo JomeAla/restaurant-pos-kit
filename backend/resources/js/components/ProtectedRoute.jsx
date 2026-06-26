@@ -2,7 +2,7 @@ import { Navigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 
 export default function ProtectedRoute({ children, permission }) {
-    const { user, loading } = useAuth();
+    const { user, loading, can } = useAuth();
 
     if (loading) {
         return (
@@ -14,7 +14,7 @@ export default function ProtectedRoute({ children, permission }) {
 
     if (!user) return <Navigate to="/login" replace />;
 
-    if (permission && !user.permissions?.includes('*') && !user.permissions?.includes(permission)) {
+    if (permission && !can(permission)) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-gray-100">
                 <div className="text-center">

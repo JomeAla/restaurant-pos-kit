@@ -43,7 +43,10 @@ export function AuthProvider({ children }) {
         setUser(null);
     };
 
-    const can = (permission) => user?.permissions?.includes('*') || user?.permissions?.includes(permission) ?? false;
+    const can = (permission) => {
+        if (!user?.permissions) return false;
+        return user.permissions.includes('*') || user.permissions.includes(permission);
+    };
 
     return (
         <AuthContext.Provider value={{ user, loading, login, pinLogin, logout, can }}>
