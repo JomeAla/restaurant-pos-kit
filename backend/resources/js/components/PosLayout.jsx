@@ -69,7 +69,7 @@ export default function PosLayout() {
                     <div className="flex items-center justify-between">
                         <Link to="/profile" onClick={() => setSidebarOpen(false)} className="hover:opacity-80">
                             <p className="text-sm font-medium text-gray-700">{user?.name}</p>
-                            <p className="text-xs text-gray-500">{user?.role}</p>
+                            <p className="text-xs text-gray-500">{user?.role?.name}</p>
                         </Link>
                         <button onClick={handleLogout} className="text-sm text-red-600 hover:text-red-800">
                             Logout
