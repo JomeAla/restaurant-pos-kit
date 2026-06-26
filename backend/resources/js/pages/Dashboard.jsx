@@ -31,7 +31,7 @@ export default function Dashboard() {
         }).catch(() => {});
 
         client.get('/settings').then(({ data }) => {
-            const currency = data.restaurant?.[0]?.value || 'USD';
+            const currency = data.restaurant?.currency || 'USD';
             setCurrency(currency);
         }).catch(() => {});
     }, []);

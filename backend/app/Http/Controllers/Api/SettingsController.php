@@ -11,7 +11,9 @@ class SettingsController extends Controller
 {
     public function index(): JsonResponse
     {
-        return response()->json(Setting::all()->groupBy('group')->toArray());
+        $settings = Setting::all()->groupBy('group')->map->pluck('value', 'key');
+
+        return response()->json($settings);
     }
 
     public function update(Request $request): JsonResponse
@@ -27,6 +29,8 @@ class SettingsController extends Controller
             Setting::setValue($setting['key'], $setting['value'], $setting['group'] ?? 'general');
         }
 
-        return response()->json(['message' => 'Settings updated.', 'settings' => Setting::all()->groupBy('group')]);
+        $settings = Setting::all()->groupBy('group')->map->pluck('value', 'key');
+
+        return response()->json(['message' => 'Settings updated.', 'settings' => $settings]);
     }
 }

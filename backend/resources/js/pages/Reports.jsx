@@ -24,7 +24,7 @@ export default function Reports() {
         };
         client.get(endpoints[tab]).then(({ data: res }) => setData(res)).catch(() => setData([])).finally(() => setLoading(false));
     };
-    useEffect(() => { load(); client.get('/settings').then(({ data }) => { setCurrency(data.restaurant?.[0]?.value || 'USD'); }).catch(() => {}); }, [tab]);
+    useEffect(() => { load(); client.get('/settings').then(({ data }) => { setCurrency(data.restaurant?.currency || 'USD'); }).catch(() => {}); }, [tab]);
 
     const maxVal = Array.isArray(data) ? Math.max(...data.map((d) => parseFloat(d.total || d.total_revenue || d.total_qty || d.total_sales || d.order_count || 0)), 1) : 1;
 

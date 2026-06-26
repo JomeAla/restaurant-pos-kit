@@ -5,6 +5,7 @@ let _currency = null;
 
 export function setCurrency(code) {
     _currency = { symbol: SYMBOLS[code] || '$', code };
+    localStorage.setItem('pos_currency', JSON.stringify(_currency));
 }
 
 export function getCurrency() {

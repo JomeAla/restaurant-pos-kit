@@ -40,7 +40,7 @@ export default function PosTerminal() {
     useEffect(() => { load(); }, []);
     useEffect(() => {
         client.get('/settings').then(({ data }) => {
-            const currency = data.restaurant?.[0]?.value || 'USD';
+            const currency = data.restaurant?.currency || 'USD';
             setCurrency(currency);
         }).catch(() => {});
     }, []);

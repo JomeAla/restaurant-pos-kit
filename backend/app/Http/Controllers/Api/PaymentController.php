@@ -12,6 +12,7 @@ use App\Models\PaymentGateway;
 use App\Models\PaymentGatewayLog;
 use App\Models\RecipeItem;
 use App\Models\RestaurantTable;
+use App\Models\Setting;
 use App\Models\SplitBill;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -37,10 +38,12 @@ class PaymentController extends Controller
         $creds = $gateway->decrypted_credentials;
         \Stripe\Stripe::setApiKey($creds['secret_key']);
 
+        $currency = strtolower(Setting::getValue('currency', 'USD'));
+
         try {
             $intent = \Stripe\PaymentIntent::create([
                 'amount' => (int)($validated['amount'] * 100),
-                'currency' => 'usd',
+                'currency' => $currency,
                 'metadata' => ['order_id' => (string)$order->id, 'order_number' => $order->order_number],
                 'automatic_payment_methods' => ['enabled' => true],
             ]);
@@ -155,7 +158,7 @@ class PaymentController extends Controller
         $totalSplit = collect($validated['splits'])->sum('amount');
 
         if (abs($totalSplit - $order->total) > 0.01) {
-            return response()->json(['message' => 'Split amounts must equal the order total ($' . number_format($order->total, 2) . ').'], 422);
+            return response()->json(['message' => 'Split amounts must equal the order total (' . number_format($order->total, 2) . ').'], 422);
         }
 
         return DB::transaction(function () use ($validated, $order, $request) {
@@ -212,7 +215,7 @@ class PaymentController extends Controller
             return response()->json(['message' => 'Invalid approver PIN.'], 403);
         }
 
-        if (!in_array('superadmin', $approver->permissions ?? []) && !$approver->hasAnyRole(['Admin'])) {
+        if (!in_array('superadmin', $approver->permissions ?? []) && !$approver->hasAnyRole(['admin'])) {
             return response()->json(['message' => 'Only admins can approve refunds.'], 403);
         }
 
@@ -276,7 +279,7 @@ class PaymentController extends Controller
                     'reason' => 'Auto-deduct from order',
                     'reference_type' => 'order',
                     'reference_id' => $order->id,
-                    'user_id' => 1,
+                    'user_id' => auth()->id() ?? 1,
                     'notes' => "Order {$order->order_number}: {$orderItem->menuItem->name} x{$orderItem->quantity}",
                 ]);
             }

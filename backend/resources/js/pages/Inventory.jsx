@@ -36,7 +36,7 @@ export default function Inventory() {
         client.get('/recipe-items').then(({ data }) => setRecipes(data));
         client.get('/purchase-orders?per_page=50').then(({ data }) => setPurchaseOrders(data.data ?? data));
     };
-    useEffect(() => { load(); client.get('/settings').then(({ data }) => { setCurrency(data.restaurant?.[0]?.value || 'USD'); }).catch(() => {}); }, []);
+    useEffect(() => { load(); client.get('/settings').then(({ data }) => { setCurrency(data.restaurant?.currency || 'USD'); }).catch(() => {}); }, []);
 
     const loadTransactions = (itemId) => {
         const params = itemId ? `?item_id=${itemId}` : '';

@@ -75,7 +75,7 @@ export default function PaymentDialog({ order, onClose, onPaid }) {
             .then(res => setStripeConfig(res.data))
             .catch(() => setStripeConfig({ configured: false }));
         client.get('/settings').then(({ data }) => {
-            const currency = data.restaurant?.[0]?.value || 'USD';
+            const currency = data.restaurant?.currency || 'USD';
             setCurrency(currency);
         }).catch(() => {});
     }, []);
