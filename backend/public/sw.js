@@ -20,6 +20,9 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
     const url = new URL(event.request.url);
     if (url.pathname.includes('/api/')) return;
+    if (url.pathname.includes('/admin/')) return;
+    if (url.pathname.includes('/livewire/')) return;
+    if (url.pathname.includes('/filament/')) return;
     if (url.origin !== location.origin) return;
     event.respondWith(
         caches.match(event.request).then((cached) => cached || fetch(event.request).then((response) => {
