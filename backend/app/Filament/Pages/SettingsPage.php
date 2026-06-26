@@ -82,7 +82,14 @@ class SettingsPage extends Page
 
     public function save(): void
     {
-        $state = $this->form->getState();
+        try {
+            $state = $this->form->getState();
+            \Illuminate\Support\Facades\Log::info('Settings save', ['state' => $state]);
+        } catch (\Throwable $e) {
+            Notification::make()->title('Error: ' . $e->getMessage())->danger()->send();
+            \Illuminate\Support\Facades\Log::error('Settings save validation error', ['error' => $e->getMessage()]);
+            return;
+        }
 
         foreach ($state as $key => $value) {
             $group = match (true) {
@@ -94,6 +101,10 @@ class SettingsPage extends Page
             Setting::setValue($key, $value, $group);
         }
 
+        // Verify after save
+        $check = Setting::getValue('currency', 'FALLBACK');
+        \Illuminate\Support\Facades\Log::info('Settings saved, currency re-read', ['currency' => $check]);
+
         foreach ($this->businessHours as $hours) {
             BusinessHour::where('day_of_week', $hours['day_of_week'])->update([
                 'open_time' => $hours['open_time'] ?: null,
@@ -102,7 +113,7 @@ class SettingsPage extends Page
             ]);
         }
 
-        Notification::make()->title('Settings saved.')->success()->send();
+        Notification::make()->title('Settings saved. Currency: ' . $check)->success()->send();
     }
 
     public function createBackup(): void
