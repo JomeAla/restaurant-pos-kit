@@ -23,7 +23,14 @@ class StatsOverview extends BaseWidget
         $lowStockItems = InventoryItem::whereColumn('current_stock', '<=', 'min_stock')->where('min_stock', '>', 0)->count();
         $openTickets = SupportTicket::whereIn('status', ['open', 'assigned', 'in_progress'])->count();
 
-        $symbols = ['USD' => '$', 'EUR' => '€', 'GBP' => '£', 'NGN' => '₦'];
+        $symbols = [
+            'USD' => '$', 'EUR' => '€', 'GBP' => '£', 'JPY' => '¥', 'CAD' => 'C$', 'AUD' => 'A$', 'CHF' => 'Fr', 'CNY' => '¥', 'INR' => '₹', 'BRL' => 'R$', 'MXN' => 'Mex$',
+            'NGN' => '₦', 'ZAR' => 'R', 'EGP' => 'E£', 'KES' => 'KSh', 'GHS' => 'GH₵', 'TZS' => 'TSh', 'UGX' => 'USh', 'MAD' => 'DH', 'DZD' => 'DA',
+            'XAF' => 'FCFA', 'XOF' => 'CFA', 'ETB' => 'Br', 'AOA' => 'Kz', 'MZN' => 'MT', 'ZMW' => 'ZK', 'RWF' => 'FRw', 'TND' => 'DT',
+            'SDG' => 'SDG', 'LYD' => 'LD', 'BWP' => 'P', 'NAD' => 'N$', 'MWK' => 'MK', 'MUR' => 'Rs', 'GMD' => 'D', 'CDF' => 'FC',
+            'MGA' => 'Ar', 'GNF' => 'FG', 'SOS' => 'Sh', 'BIF' => 'FBu', 'SCR' => 'SR', 'SZL' => 'E', 'LSL' => 'L', 'CVE' => 'Esc',
+            'MRU' => 'UM', 'DJF' => 'Fdj', 'KMF' => 'CF', 'SSP' => '£', 'SLE' => 'Le', 'STN' => 'Db', 'ERN' => 'Nfk',
+        ];
         $currency = Setting::getValue('currency', 'USD');
         $currencySymbol = $symbols[$currency] ?? '$';
 

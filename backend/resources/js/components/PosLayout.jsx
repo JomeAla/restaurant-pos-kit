@@ -1,29 +1,34 @@
 import { useState } from 'react';
 import { Link, Outlet, useNavigate, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '../contexts/AuthContext';
 import { useOffline } from '../hooks/useOffline';
 
+const LANGUAGES = { en: 'English', fr: 'Français', es: 'Español', de: 'Deutsch' };
+
 const navItems = [
-    { to: '/dashboard', label: 'Dashboard', icon: '📊', permission: null },
-    { to: '/pos', label: 'POS Terminal', icon: '🛒', permission: 'order.create' },
-    { to: '/menu', label: 'Menu Items', icon: '🍽️', permission: 'menu.view' },
-    { to: '/categories', label: 'Categories', icon: '📁', permission: 'menu.view' },
-    { to: '/modifiers', label: 'Modifiers', icon: '⚙️', permission: 'menu.view' },
-    { to: '/combos', label: 'Combos', icon: '🎁', permission: 'menu.view' },
-    { to: '/inventory', label: 'Inventory', icon: '📦', permission: 'menu.view' },
-    { to: '/reservations', label: 'Reservations', icon: '📅', permission: 'order.view' },
-    { to: '/tables', label: 'Tables', icon: '🪑', permission: 'tables.view' },
-    { to: '/orders', label: 'Orders', icon: '📋', permission: 'order.view' },
-    { to: '/kds', label: 'KDS', icon: '👨‍🍳', permission: 'order.view' },
-    { to: '/reports', label: 'Reports', icon: '📊', permission: 'order.view' },
-    { to: '/settings', label: 'Settings', icon: '⚙️', permission: null },
+    { to: '/dashboard', labelKey: 'nav.dashboard', icon: '📊', permission: null },
+    { to: '/pos', labelKey: 'nav.pos_terminal', icon: '🛒', permission: 'order.create' },
+    { to: '/menu', labelKey: 'nav.menu_items', icon: '🍽️', permission: 'menu.view' },
+    { to: '/categories', labelKey: 'nav.categories', icon: '📁', permission: 'menu.view' },
+    { to: '/modifiers', labelKey: 'nav.modifiers', icon: '⚙️', permission: 'menu.view' },
+    { to: '/combos', labelKey: 'nav.combos', icon: '🎁', permission: 'menu.view' },
+    { to: '/inventory', labelKey: 'nav.inventory', icon: '📦', permission: 'menu.view' },
+    { to: '/reservations', labelKey: 'nav.reservations', icon: '📅', permission: 'order.view' },
+    { to: '/tables', labelKey: 'nav.tables', icon: '🪑', permission: 'tables.view' },
+    { to: '/orders', labelKey: 'nav.orders', icon: '📋', permission: 'order.view' },
+    { to: '/kds', labelKey: 'nav.kds', icon: '👨‍🍳', permission: 'order.view' },
+    { to: '/reports', labelKey: 'nav.reports', icon: '📊', permission: 'order.view' },
+    { to: '/settings', labelKey: 'nav.settings', icon: '⚙️', permission: null },
 ];
 
 export default function PosLayout() {
-    const { user, logout, can } = useAuth();
+    const { t } = useTranslation();
+    const { user, logout, can, changeLocale } = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
     const [sidebarOpen, setSidebarOpen] = useState(false);
+    const [langOpen, setLangOpen] = useState(false);
     const { isOnline, pendingSync } = useOffline();
 
     const handleLogout = async () => {
@@ -31,6 +36,7 @@ export default function PosLayout() {
         navigate('/login');
     };
 
+    const currentLang = localStorage.getItem('i18nextLng') || 'en';
     const visibleItems = navItems.filter((item) => !item.permission || can(item.permission));
 
     return (
@@ -61,19 +67,41 @@ export default function PosLayout() {
                             className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${location.pathname.startsWith(item.to) ? 'bg-indigo-50 text-indigo-700' : 'text-gray-600 hover:bg-gray-100'}`}
                         >
                             <span>{item.icon}</span>
-                            {item.label}
+                            {t(item.labelKey)}
                         </Link>
                     ))}
                 </nav>
-                <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-200">
-                    <div className="flex items-center justify-between">
-                        <Link to="/profile" onClick={() => setSidebarOpen(false)} className="hover:opacity-80">
-                            <p className="text-sm font-medium text-gray-700">{user?.name}</p>
-                            <p className="text-xs text-gray-500">{user?.role?.name}</p>
-                        </Link>
-                        <button onClick={handleLogout} className="text-sm text-red-600 hover:text-red-800">
-                            Logout
-                        </button>
+                <div className="absolute bottom-0 left-0 right-0 border-t border-gray-200">
+                    <div className="p-2 px-4">
+                        <div className="relative">
+                            <button onClick={() => setLangOpen(!langOpen)} className="flex items-center gap-2 text-xs text-gray-500 hover:text-gray-700 w-full py-1">
+                                <span className="text-base">🌐</span>
+                                <span>{LANGUAGES[currentLang] || 'English'}</span>
+                                <svg className={`w-3 h-3 ml-auto transition-transform ${langOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </button>
+                            {langOpen && (
+                                <div className="absolute bottom-full left-0 right-0 mb-1 bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden">
+                                    {Object.entries(LANGUAGES).map(([code, name]) => (
+                                        <button key={code} onClick={() => { changeLocale(code); setLangOpen(false); }}
+                                            className={`block w-full text-left px-3 py-1.5 text-xs hover:bg-gray-100 ${currentLang === code ? 'bg-indigo-50 text-indigo-700 font-medium' : 'text-gray-600'}`}
+                                        >{name}</button>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                    <div className="p-4 border-t border-gray-200">
+                        <div className="flex items-center justify-between">
+                            <Link to="/profile" onClick={() => setSidebarOpen(false)} className="hover:opacity-80">
+                                <p className="text-sm font-medium text-gray-700">{user?.name}</p>
+                                <p className="text-xs text-gray-500">{user?.role?.name}</p>
+                            </Link>
+                            <button onClick={handleLogout} className="text-sm text-red-600 hover:text-red-800">
+                                {t('nav.logout')}
+                            </button>
+                        </div>
                     </div>
                 </div>
             </aside>
@@ -85,7 +113,7 @@ export default function PosLayout() {
                         </svg>
                     </button>
                     <h2 className="text-lg font-semibold text-gray-800 capitalize">
-                        {location.pathname === '/' ? 'Dashboard' : location.pathname.split('/')[1]}
+                        {location.pathname === '/' ? t('nav.dashboard') : t(`nav.${location.pathname.split('/')[1]}`, location.pathname.split('/')[1])}
                     </h2>
                 </header>
                 <main className="flex-1 p-4 lg:p-6 overflow-auto">

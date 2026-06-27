@@ -32,6 +32,7 @@ export default function Settings() {
                 timezone: flat.timezone || 'UTC',
                 date_format: flat.date_format || 'M j, Y',
                 order_prefix: flat.order_prefix || 'POS',
+                locale: flat.locale || 'en',
             });
         });
     }, []);
@@ -44,7 +45,7 @@ export default function Settings() {
                 restaurant: ['restaurant_name', 'restaurant_address', 'restaurant_phone', 'restaurant_email', 'currency'],
                 tax: ['tax_rate', 'tax_label', 'tax_inclusive'],
                 receipt: ['receipt_footer', 'receipt_show_logo', 'receipt_show_qr'],
-                general: ['timezone', 'date_format', 'order_prefix'],
+                general: ['timezone', 'date_format', 'order_prefix', 'locale'],
             };
             const keys = groupMap[tab] || [];
             const payload = keys.map((key) => ({ key, value: form[key], group: tab }));
@@ -74,7 +75,63 @@ export default function Settings() {
                                 <div><label className="block text-sm font-medium text-gray-700 mb-1">Phone</label><input value={form.restaurant_phone} onChange={(e) => setForm({ ...form, restaurant_phone: e.target.value })} className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none" /></div>
                                 <div><label className="block text-sm font-medium text-gray-700 mb-1">Email</label><input type="email" value={form.restaurant_email} onChange={(e) => setForm({ ...form, restaurant_email: e.target.value })} className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none" /></div>
                             </div>
-                            <div><label className="block text-sm font-medium text-gray-700 mb-1">Currency</label><select value={form.currency} onChange={(e) => setForm({ ...form, currency: e.target.value })} className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none"><option value="USD">USD ($)</option><option value="EUR">EUR (€)</option><option value="GBP">GBP (£)</option><option value="NGN">NGN (₦)</option></select></div>
+                            <div><label className="block text-sm font-medium text-gray-700 mb-1">Currency</label><select value={form.currency} onChange={(e) => setForm({ ...form, currency: e.target.value })} className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
+  <optgroup label="Major World Currencies">
+    <option value="USD">USD ($)</option>
+    <option value="EUR">EUR (€)</option>
+    <option value="GBP">GBP (£)</option>
+    <option value="JPY">JPY (¥)</option>
+    <option value="CAD">CAD (C$)</option>
+    <option value="AUD">AUD (A$)</option>
+    <option value="CHF">CHF (Fr)</option>
+    <option value="CNY">CNY (¥)</option>
+    <option value="INR">INR (₹)</option>
+    <option value="BRL">BRL (R$)</option>
+    <option value="MXN">MXN (Mex$)</option>
+  </optgroup>
+  <optgroup label="African Currencies">
+    <option value="NGN">NGN (₦) - Nigeria</option>
+    <option value="ZAR">ZAR (R) - South Africa</option>
+    <option value="EGP">EGP (E£) - Egypt</option>
+    <option value="KES">KES (KSh) - Kenya</option>
+    <option value="GHS">GHS (GH₵) - Ghana</option>
+    <option value="TZS">TZS (TSh) - Tanzania</option>
+    <option value="UGX">UGX (USh) - Uganda</option>
+    <option value="MAD">MAD (DH) - Morocco</option>
+    <option value="DZD">DZD (DA) - Algeria</option>
+    <option value="XAF">XAF (FCFA) - Central Africa</option>
+    <option value="XOF">XOF (CFA) - West Africa</option>
+    <option value="ETB">ETB (Br) - Ethiopia</option>
+    <option value="AOA">AOA (Kz) - Angola</option>
+    <option value="MZN">MZN (MT) - Mozambique</option>
+    <option value="ZMW">ZMW (ZK) - Zambia</option>
+    <option value="RWF">RWF (FRw) - Rwanda</option>
+    <option value="TND">TND (DT) - Tunisia</option>
+    <option value="SDG">SDG (SDG) - Sudan</option>
+    <option value="LYD">LYD (LD) - Libya</option>
+    <option value="BWP">BWP (P) - Botswana</option>
+    <option value="NAD">NAD (N$) - Namibia</option>
+    <option value="MWK">MWK (MK) - Malawi</option>
+    <option value="MUR">MUR (Rs) - Mauritius</option>
+    <option value="GMD">GMD (D) - Gambia</option>
+    <option value="CDF">CDF (FC) - DR Congo</option>
+    <option value="MGA">MGA (Ar) - Madagascar</option>
+    <option value="GNF">GNF (FG) - Guinea</option>
+    <option value="SOS">SOS (Sh) - Somalia</option>
+    <option value="BIF">BIF (FBu) - Burundi</option>
+    <option value="SCR">SCR (SR) - Seychelles</option>
+    <option value="SZL">SZL (E) - Eswatini</option>
+    <option value="LSL">LSL (L) - Lesotho</option>
+    <option value="CVE">CVE (Esc) - Cape Verde</option>
+    <option value="MRU">MRU (UM) - Mauritania</option>
+    <option value="DJF">DJF (Fdj) - Djibouti</option>
+    <option value="KMF">KMF (CF) - Comoros</option>
+    <option value="SSP">SSP (£) - South Sudan</option>
+    <option value="SLE">SLE (Le) - Sierra Leone</option>
+    <option value="STN">STN (Db) - São Tomé</option>
+    <option value="ERN">ERN (Nfk) - Eritrea</option>
+  </optgroup>
+</select></div>
                         </>
                     )}
 
@@ -103,6 +160,14 @@ export default function Settings() {
                                 <div><label className="block text-sm font-medium text-gray-700 mb-1">Date Format</label><input value={form.date_format} onChange={(e) => setForm({ ...form, date_format: e.target.value })} className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none" /></div>
                             </div>
                             <div><label className="block text-sm font-medium text-gray-700 mb-1">Order Number Prefix</label><input value={form.order_prefix} onChange={(e) => setForm({ ...form, order_prefix: e.target.value })} className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none" /></div>
+                            <div><label className="block text-sm font-medium text-gray-700 mb-1">Language</label>
+                                <select value={form.locale} onChange={(e) => setForm({ ...form, locale: e.target.value })} className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
+                                    <option value="en">English</option>
+                                    <option value="fr">Français</option>
+                                    <option value="es">Español</option>
+                                    <option value="de">Deutsch</option>
+                                </select>
+                            </div>
                         </>
                     )}
 

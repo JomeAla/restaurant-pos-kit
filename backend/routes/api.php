@@ -44,6 +44,8 @@ Route::prefix('v1')->group(function () {
         Route::post('/auth/logout', [AuthController::class, 'logout']);
         Route::get('/auth/me', [AuthController::class, 'me']);
         Route::put('/auth/profile', [AuthController::class, 'updateProfile']);
+        Route::get('/auth/locale', [AuthController::class, 'getLocale']);
+        Route::put('/auth/locale', [AuthController::class, 'updateLocale']);
 
         Route::get('/users/roles', [UserController::class, 'roles']);
         Route::apiResource('users', UserController::class);

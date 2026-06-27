@@ -47,6 +47,7 @@ class SettingsPage extends Page
             'timezone' => Setting::getValue('timezone', 'UTC'),
             'date_format' => Setting::getValue('date_format', 'M j, Y'),
             'order_prefix' => Setting::getValue('order_prefix', 'POS'),
+            'locale' => Setting::getValue('locale', 'en'),
         ]);
 
         $this->businessHours = BusinessHour::orderByRaw("FIELD(day_of_week, 'monday','tuesday','wednesday','thursday','friday','saturday','sunday')")->get()->toArray();
@@ -60,7 +61,26 @@ class SettingsPage extends Page
                 Textarea::make('restaurant_address')->label('Address')->rows(2),
                 TextInput::make('restaurant_phone')->label('Phone'),
                 TextInput::make('restaurant_email')->label('Email'),
-                Select::make('currency')->label('Currency')->options(['USD' => 'USD ($)', 'EUR' => 'EUR (€)', 'GBP' => 'GBP (£)', 'NGN' => 'NGN (₦)']),
+                Select::make('currency')->label('Currency')->options(function () {
+                    $world = ['USD' => 'USD ($)', 'EUR' => 'EUR (€)', 'GBP' => 'GBP (£)', 'JPY' => 'JPY (¥)', 'CAD' => 'CAD (C$)', 'AUD' => 'AUD (A$)', 'CHF' => 'CHF (Fr)', 'CNY' => 'CNY (¥)', 'INR' => 'INR (₹)', 'BRL' => 'BRL (R$)', 'MXN' => 'MXN (Mex$)'];
+                    $africa = [
+                        'NGN' => 'NGN (₦) - Nigeria', 'ZAR' => 'ZAR (R) - South Africa', 'EGP' => 'EGP (E£) - Egypt',
+                        'KES' => 'KES (KSh) - Kenya', 'GHS' => 'GHS (GH₵) - Ghana', 'TZS' => 'TZS (TSh) - Tanzania',
+                        'UGX' => 'UGX (USh) - Uganda', 'MAD' => 'MAD (DH) - Morocco', 'DZD' => 'DZD (DA) - Algeria',
+                        'XAF' => 'XAF (FCFA) - Central Africa', 'XOF' => 'XOF (CFA) - West Africa',
+                        'ETB' => 'ETB (Br) - Ethiopia', 'AOA' => 'AOA (Kz) - Angola', 'MZN' => 'MZN (MT) - Mozambique',
+                        'ZMW' => 'ZMW (ZK) - Zambia', 'RWF' => 'RWF (FRw) - Rwanda', 'TND' => 'TND (DT) - Tunisia',
+                        'SDG' => 'SDG (SDG) - Sudan', 'LYD' => 'LYD (LD) - Libya', 'BWP' => 'BWP (P) - Botswana',
+                        'NAD' => 'NAD (N$) - Namibia', 'MWK' => 'MWK (MK) - Malawi', 'MUR' => 'MUR (Rs) - Mauritius',
+                        'GMD' => 'GMD (D) - Gambia', 'CDF' => 'CDF (FC) - DR Congo', 'MGA' => 'MGA (Ar) - Madagascar',
+                        'GNF' => 'GNF (FG) - Guinea', 'SOS' => 'SOS (Sh) - Somalia', 'BIF' => 'BIF (FBu) - Burundi',
+                        'SCR' => 'SCR (SR) - Seychelles', 'SZL' => 'SZL (E) - Eswatini', 'LSL' => 'LSL (L) - Lesotho',
+                        'CVE' => 'CVE (Esc) - Cape Verde', 'MRU' => 'MRU (UM) - Mauritania', 'DJF' => 'DJF (Fdj) - Djibouti',
+                        'KMF' => 'KMF (CF) - Comoros', 'SSP' => 'SSP (£) - South Sudan', 'SLE' => 'SLE (Le) - Sierra Leone',
+                        'STN' => 'STN (Db) - São Tomé', 'ERN' => 'ERN (Nfk) - Eritrea',
+                    ];
+                    return array_merge(['' => '— Select —'], $world, $africa);
+                })->searchable(),
             ])->columns(2),
             Section::make('Tax Settings')->schema([
                 TextInput::make('tax_rate')->label('Tax Rate (%)')->numeric(),
@@ -76,6 +96,12 @@ class SettingsPage extends Page
                 TextInput::make('timezone')->label('Timezone'),
                 TextInput::make('date_format')->label('Date Format'),
                 TextInput::make('order_prefix')->label('Order Prefix'),
+                Select::make('locale')->label('Language')->options([
+                    'en' => 'English',
+                    'fr' => 'Français',
+                    'es' => 'Español',
+                    'de' => 'Deutsch',
+                ]),
             ])->columns(2),
         ])->statePath('data');
     }
@@ -96,6 +122,7 @@ class SettingsPage extends Page
                 in_array($key, ['restaurant_name', 'restaurant_address', 'restaurant_phone', 'restaurant_email', 'currency']) => 'restaurant',
                 in_array($key, ['tax_rate', 'tax_label', 'tax_inclusive']) => 'tax',
                 in_array($key, ['receipt_footer', 'receipt_show_logo', 'receipt_show_qr']) => 'receipt',
+                $key === 'locale' => 'general',
                 default => 'general',
             };
             Setting::setValue($key, $value, $group);

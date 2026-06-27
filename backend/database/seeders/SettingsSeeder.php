@@ -24,6 +24,7 @@ class SettingsSeeder extends Seeder
             ['key' => 'timezone', 'value' => 'UTC', 'group' => 'general'],
             ['key' => 'date_format', 'value' => 'M j, Y', 'group' => 'general'],
             ['key' => 'order_prefix', 'value' => 'POS', 'group' => 'general'],
+            ['key' => 'locale', 'value' => 'en', 'group' => 'general'],
         ];
 
         foreach ($defaults as $setting) {

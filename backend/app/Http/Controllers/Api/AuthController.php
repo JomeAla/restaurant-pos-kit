@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\LoginHistory;
+use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Validation\ValidationException;
@@ -91,7 +93,10 @@ class AuthController extends Controller
 
     public function me(Request $request): JsonResponse
     {
-        return response()->json($request->user()->load('role.permissions'));
+        $data = $request->user()->load('role.permissions')->toArray();
+        $data['locale'] = Setting::getValue('locale', 'en');
+
+        return response()->json($data);
     }
 
     public function updateProfile(Request $request): JsonResponse
@@ -115,6 +120,30 @@ class AuthController extends Controller
         $user->update($validated);
 
         return response()->json($user->load('role'));
+    }
+
+    public function getLocale(): JsonResponse
+    {
+        return response()->json([
+            'locale' => Setting::getValue('locale', 'en'),
+            'available' => ['en', 'fr', 'es', 'de'],
+        ]);
+    }
+
+    public function updateLocale(Request $request): JsonResponse
+    {
+        $validated = $request->validate([
+            'locale' => 'required|string|in:en,fr,es,de',
+        ]);
+
+        Setting::setValue('locale', $validated['locale'], 'general');
+
+        App::setLocale($validated['locale']);
+
+        return response()->json([
+            'locale' => $validated['locale'],
+            'message' => __('messages.common.success'),
+        ]);
     }
 
     public function forgotPassword(Request $request): JsonResponse
