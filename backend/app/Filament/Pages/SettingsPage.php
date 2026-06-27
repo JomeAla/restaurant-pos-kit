@@ -14,6 +14,7 @@ use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Artisan;
 
 class SettingsPage extends Page
@@ -117,6 +118,8 @@ class SettingsPage extends Page
             return;
         }
 
+        $localeChanged = false;
+
         foreach ($state as $key => $value) {
             $group = match (true) {
                 in_array($key, ['restaurant_name', 'restaurant_address', 'restaurant_phone', 'restaurant_email', 'currency']) => 'restaurant',
@@ -126,6 +129,11 @@ class SettingsPage extends Page
                 default => 'general',
             };
             Setting::setValue($key, $value, $group);
+
+            if ($key === 'locale') {
+                $localeChanged = true;
+                App::setLocale($value);
+            }
         }
 
         // Verify after save
@@ -138,6 +146,12 @@ class SettingsPage extends Page
                 'close_time' => $hours['close_time'] ?: null,
                 'is_closed' => $hours['is_closed'] ?? false,
             ]);
+        }
+
+        if ($localeChanged) {
+            Notification::make()->title(__('Language changed. Reloading...'))->success()->send();
+            $this->redirect(request()->url());
+            return;
         }
 
         Notification::make()->title('Settings saved. Currency: ' . $check)->success()->send();
