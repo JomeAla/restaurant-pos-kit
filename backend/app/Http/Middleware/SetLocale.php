@@ -10,11 +10,14 @@ use Symfony\Component\HttpFoundation\Response;
 
 class SetLocale
 {
+    const ALLOWED = ['en', 'fr', 'es', 'de', 'pt', 'it', 'nl', 'pl', 'ru', 'zh', 'ja', 'ko', 'ar', 'tr'];
+
     public function handle(Request $request, Closure $next): Response
     {
-        $locale = Setting::getValue('locale', 'en');
+        $setting = Setting::where('key', 'locale')->first();
+        $locale = $setting ? $setting->value : 'en';
 
-        if (in_array($locale, ['en', 'fr', 'es', 'de', 'pt', 'it', 'nl', 'pl', 'ru', 'zh', 'ja', 'ko', 'ar', 'tr'])) {
+        if (in_array($locale, self::ALLOWED)) {
             App::setLocale($locale);
         }
 

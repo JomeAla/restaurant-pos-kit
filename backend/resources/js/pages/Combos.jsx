@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import client from '../api/client';
+import { formatCurrency, setCurrency as setCurr } from '../utils/currency';
 
 export default function Combos() {
     const [combos, setCombos] = useState([]);
 
     useEffect(() => {
         client.get('/combos').then(({ data }) => setCombos(data.data ?? data)).catch(() => {});
+        client.get('/settings').then(({ data }) => { const c = data.restaurant?.currency || 'USD'; setCurr(c); }).catch(() => {});
     }, []);
 
     return (
@@ -21,7 +23,7 @@ export default function Combos() {
                                 <h3 className="font-semibold text-gray-800">{combo.name}</h3>
                                 <p className="text-sm text-gray-500">{combo.description}</p>
                             </div>
-                            <span className="text-lg font-bold text-indigo-600">${parseFloat(combo.price).toFixed(2)}</span>
+                            <span className="text-lg font-bold text-indigo-600">{formatCurrency(combo.price)}</span>
                         </div>
                         {combo.items?.length > 0 && (
                             <div className="mt-3 pl-4 border-l-2 border-indigo-200 space-y-1">

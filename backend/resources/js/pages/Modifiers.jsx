@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import client from '../api/client';
 import Modal from '../components/Modal';
+import { formatCurrency, setCurrency as setCurr } from '../utils/currency';
 
 export default function Modifiers() {
     const [modifiers, setModifiers] = useState([]);
@@ -11,7 +12,10 @@ export default function Modifiers() {
 
     const [optionModal, setOptionModal] = useState({ open: false, modifier: null, option: null, name: '', price_adjustment: '0', is_default: false });
 
-    const load = () => client.get('/modifiers').then(({ data }) => setModifiers(data));
+    const load = () => {
+        client.get('/modifiers').then(({ data }) => setModifiers(data));
+        client.get('/settings').then(({ data }) => { const c = data.restaurant?.currency || 'USD'; setCurr(c); }).catch(() => {});
+    };
     useEffect(() => { load(); }, []);
 
     const openCreate = () => { setEditing(null); setForm({ name: '', type: 'single', is_required: false, min_selection: 0, max_selection: 0 }); setModalOpen(true); };
@@ -95,7 +99,7 @@ export default function Modifiers() {
                                             {opt.is_default && <span className="text-xs text-indigo-500 font-medium">default</span>}
                                         </div>
                                         <div className="flex items-center gap-3">
-                                            <span className="text-gray-500">{parseFloat(opt.price_adjustment) > 0 ? `+$${parseFloat(opt.price_adjustment).toFixed(2)}` : 'Free'}</span>
+                                            <span className="text-gray-500">{parseFloat(opt.price_adjustment) > 0 ? `+${formatCurrency(opt.price_adjustment)}` : 'Free'}</span>
                                             <button onClick={() => openOption(mod, opt)} className="text-indigo-500 hover:text-indigo-700 text-xs opacity-0 group-hover:opacity-100">Edit</button>
                                             <button onClick={() => deleteOption(opt.id)} className="text-red-500 hover:text-red-700 text-xs opacity-0 group-hover:opacity-100">Del</button>
                                         </div>
@@ -152,7 +156,7 @@ export default function Modifiers() {
                         <input value={optionModal.name} onChange={(e) => setOptionModal((p) => ({ ...p, name: e.target.value }))} className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none" />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Price Adjustment ($)</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Price Adjustment</label>
                         <input type="number" step="0.01" min="0" value={optionModal.price_adjustment} onChange={(e) => setOptionModal((p) => ({ ...p, price_adjustment: e.target.value }))} className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none" />
                     </div>
                     <div className="flex items-center gap-2">
