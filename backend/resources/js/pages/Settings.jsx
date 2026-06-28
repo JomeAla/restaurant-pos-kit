@@ -71,7 +71,7 @@ export default function Settings() {
                         <>
                             <div><label className="block text-sm font-medium text-gray-700 mb-1">Restaurant Name</label><input value={form.restaurant_name} onChange={(e) => setForm({ ...form, restaurant_name: e.target.value })} className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none" /></div>
                             <div><label className="block text-sm font-medium text-gray-700 mb-1">Address</label><textarea value={form.restaurant_address} onChange={(e) => setForm({ ...form, restaurant_address: e.target.value })} rows={2} className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none" /></div>
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div><label className="block text-sm font-medium text-gray-700 mb-1">Phone</label><input value={form.restaurant_phone} onChange={(e) => setForm({ ...form, restaurant_phone: e.target.value })} className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none" /></div>
                                 <div><label className="block text-sm font-medium text-gray-700 mb-1">Email</label><input type="email" value={form.restaurant_email} onChange={(e) => setForm({ ...form, restaurant_email: e.target.value })} className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none" /></div>
                             </div>
@@ -137,7 +137,7 @@ export default function Settings() {
 
                     {tab === 'tax' && (
                         <>
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div><label className="block text-sm font-medium text-gray-700 mb-1">Tax Rate (%)</label><input type="number" step="0.01" min="0" max="100" value={form.tax_rate} onChange={(e) => setForm({ ...form, tax_rate: e.target.value })} className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none" /></div>
                                 <div><label className="block text-sm font-medium text-gray-700 mb-1">Tax Label</label><input value={form.tax_label} onChange={(e) => setForm({ ...form, tax_label: e.target.value })} className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none" /></div>
                             </div>
@@ -155,7 +155,7 @@ export default function Settings() {
 
                     {tab === 'general' && (
                         <>
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div><label className="block text-sm font-medium text-gray-700 mb-1">Timezone</label><input value={form.timezone} onChange={(e) => setForm({ ...form, timezone: e.target.value })} className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none" /></div>
                                 <div><label className="block text-sm font-medium text-gray-700 mb-1">Date Format</label><input value={form.date_format} onChange={(e) => setForm({ ...form, date_format: e.target.value })} className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none" /></div>
                             </div>

@@ -83,7 +83,7 @@ export default function PosLayout() {
                 </div>
             </aside>
             <div className="flex-1 flex flex-col min-h-screen">
-                <header className="h-16 bg-white border-b border-gray-200 flex items-center px-4 lg:px-6 gap-4">
+                <header className="h-16 bg-white border-b border-gray-200 flex items-center px-3 sm:px-4 lg:px-6 gap-2 sm:gap-4">
                     <button className="lg:hidden mr-2 text-gray-600" onClick={() => setSidebarOpen(true)}>
                         <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
@@ -95,14 +95,14 @@ export default function PosLayout() {
                     <select
                         value={currentLang}
                         onChange={(e) => changeLocale(e.target.value)}
-                        className="text-sm border border-gray-300 rounded-lg px-3 py-1.5 bg-white text-gray-700 focus:ring-2 focus:ring-indigo-500 outline-none cursor-pointer"
+                        className="text-xs sm:text-sm border border-gray-300 rounded-lg px-2 sm:px-3 py-1.5 bg-white text-gray-700 focus:ring-2 focus:ring-indigo-500 outline-none cursor-pointer max-w-[90px] sm:max-w-none"
                     >
                         {Object.entries(LANGUAGES).map(([code, name]) => (
                             <option key={code} value={code}>{name}</option>
                         ))}
                     </select>
                 </header>
-                <main className="flex-1 p-4 lg:p-6 overflow-auto">
+                <main className="flex-1 p-3 sm:p-4 lg:p-6 overflow-auto">
                     <Outlet />
                 </main>
             </div>

@@ -70,7 +70,7 @@ export default function KDS() {
 
     return (
         <div className="h-[calc(100vh-12rem)] -m-6 p-6">
-            <div className="grid grid-cols-3 gap-4 h-full">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 h-full">
                 {grouped.map((column) => (
                     <div key={column.key} className="flex flex-col h-full">
                         <div className={`flex items-center justify-between mb-3 px-4 py-2 rounded-lg border-l-4 ${column.color} bg-white shadow-sm`}>

@@ -214,9 +214,9 @@ export default function PosTerminal() {
                                             <p className="text-xs text-gray-500 truncate">{item.modifier_summary.map((m) => m.option_name).join(', ')}</p>
                                         )}
                                         <div className="flex items-center gap-2 mt-1">
-                                            <button onClick={() => updateQty(item.id, -1)} className="w-6 h-6 rounded bg-white border border-gray-200 text-gray-600 text-xs font-bold hover:bg-gray-100">-</button>
+                                            <button onClick={() => updateQty(item.id, -1)} className="w-7 h-7 sm:w-6 sm:h-6 rounded bg-white border border-gray-200 text-gray-600 text-sm sm:text-xs font-bold hover:bg-gray-100">-</button>
                                             <span className="text-sm font-medium text-gray-700">{item.quantity}</span>
-                                            <button onClick={() => updateQty(item.id, 1)} className="w-6 h-6 rounded bg-white border border-gray-200 text-gray-600 text-xs font-bold hover:bg-gray-100">+</button>
+                                            <button onClick={() => updateQty(item.id, 1)} className="w-7 h-7 sm:w-6 sm:h-6 rounded bg-white border border-gray-200 text-gray-600 text-sm sm:text-xs font-bold hover:bg-gray-100">+</button>
                                         </div>
                                     </div>
                                     <div className="text-right flex flex-col items-end gap-1">
@@ -279,9 +279,9 @@ export default function PosTerminal() {
                 ))}
                 <div className="flex items-center gap-3 mb-4">
                     <span className="text-sm text-gray-600">Quantity:</span>
-                    <button onClick={() => setCartItemQty(Math.max(1, cartItemQty - 1))} className="w-8 h-8 rounded bg-gray-100 border text-gray-600 text-sm font-bold">-</button>
+                    <button onClick={() => setCartItemQty(Math.max(1, cartItemQty - 1))} className="w-9 h-9 sm:w-8 sm:h-8 rounded bg-gray-100 border text-gray-600 text-base sm:text-sm font-bold">-</button>
                     <span className="text-sm font-bold text-gray-800">{cartItemQty}</span>
-                    <button onClick={() => setCartItemQty(cartItemQty + 1)} className="w-8 h-8 rounded bg-gray-100 border text-gray-600 text-sm font-bold">+</button>
+                    <button onClick={() => setCartItemQty(cartItemQty + 1)} className="w-9 h-9 sm:w-8 sm:h-8 rounded bg-gray-100 border text-gray-600 text-base sm:text-sm font-bold">+</button>
                 </div>
                 <button onClick={() => addToCart(selectedItem, cartItemQty, cartItemModifiers)} className="w-full py-3 bg-indigo-600 text-white font-semibold rounded-lg text-sm hover:bg-indigo-700">
                     Add to Order — {formatCurrency((parseFloat(selectedItem?.price || 0) + cartItemModifiers.reduce((s, m) => s + parseFloat(m.price_adjustment || 0), 0)) * cartItemQty)}
@@ -292,7 +292,7 @@ export default function PosTerminal() {
                 {tables.length === 0 ? (
                     <p className="text-gray-500 text-sm text-center py-4">No tables available</p>
                 ) : (
-                    <div className="grid grid-cols-4 gap-3">
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                         {tables.filter((t) => t.status === 'free' || t.status === 'dirty').map((table) => (
                             <button key={table.id} onClick={() => { setSelectedTable(table); setShowTableSelect(false); }} className={`aspect-square rounded-xl border-2 flex flex-col items-center justify-center transition-colors ${selectedTable?.id === table.id ? 'border-indigo-500 bg-indigo-50' : 'border-gray-200 hover:border-indigo-300'}`}>
                                 <span className="text-lg font-bold text-gray-800">{table.table_number}</span>

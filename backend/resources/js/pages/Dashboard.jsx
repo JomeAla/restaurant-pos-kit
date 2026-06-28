@@ -48,10 +48,10 @@ export default function Dashboard() {
                     { label: 'Active Tables', value: stats.activeTables.toString(), color: 'bg-amber-500' },
                     { label: 'Staff Accounts', value: stats.staffOnline.toString(), color: 'bg-purple-500' },
                 ].map((card) => (
-                    <div key={card.label} className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+                    <div key={card.label} className="bg-white rounded-xl shadow-sm p-4 sm:p-6 border border-gray-100">
                         <div className={`w-3 h-3 rounded-full ${card.color} mb-3`} />
                         <p className="text-sm text-gray-500">{card.label}</p>
-                        <p className="text-2xl font-bold text-gray-800 mt-1">{card.value}</p>
+                        <p className="text-xl sm:text-2xl font-bold text-gray-800 mt-1">{card.value}</p>
                     </div>
                 ))}
             </div>

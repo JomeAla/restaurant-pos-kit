@@ -128,7 +128,8 @@ export default function Inventory() {
             {tab === 'items' && (
                 <div>
                     <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search by name or SKU..." className="mb-4 px-3 py-2 border border-gray-300 rounded-lg text-sm w-full max-w-md focus:ring-2 focus:ring-indigo-500 outline-none" />
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                    <div className="bg-white rounded-xl shadow-sm border border-gray-100">
+                        <div className="overflow-x-auto">
                         <table className="w-full text-sm">
                             <thead>
                                 <tr className="border-b border-gray-100 bg-gray-50">
@@ -159,12 +160,14 @@ export default function Inventory() {
                                 ))}
                             </tbody>
                         </table>
+                        </div>
                     </div>
                 </div>
             )}
 
             {tab === 'transactions' && (
-                <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                <div className="bg-white rounded-xl shadow-sm border border-gray-100">
+                    <div className="overflow-x-auto">
                     <table className="w-full text-sm">
                         <thead>
                             <tr className="border-b border-gray-100 bg-gray-50">
@@ -189,13 +192,15 @@ export default function Inventory() {
                                     <td className="p-3 text-right text-gray-500 text-xs">{new Date(t.created_at).toLocaleString()}</td>
                                 </tr>
                             ))}
-                        </tbody>
-                    </table>
+                    </tbody>
+                </table>
                 </div>
+            </div>
             )}
 
             {tab === 'purchase-orders' && (
-                <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                <div className="bg-white rounded-xl shadow-sm border border-gray-100">
+                    <div className="overflow-x-auto">
                     <table className="w-full text-sm">
                         <thead>
                             <tr className="border-b border-gray-100 bg-gray-50">
@@ -220,13 +225,15 @@ export default function Inventory() {
                                     <td className="p-3 text-right">{po.status === 'pending' && <button onClick={() => receivePO(po.id)} className="text-green-600 hover:text-green-800 text-sm font-medium">Receive</button>}</td>
                                 </tr>
                             ))}
-                        </tbody>
-                    </table>
+                    </tbody>
+                </table>
                 </div>
+            </div>
             )}
 
             {tab === 'recipes' && (
-                <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                <div className="bg-white rounded-xl shadow-sm border border-gray-100">
+                    <div className="overflow-x-auto">
                     <table className="w-full text-sm">
                         <thead>
                             <tr className="border-b border-gray-100 bg-gray-50">
@@ -250,20 +257,21 @@ export default function Inventory() {
                         </tbody>
                     </table>
                 </div>
+                </div>
             )}
 
             <Modal open={itemModal} onClose={() => setItemModal(false)} title={editingItem ? 'Edit Inventory Item' : 'New Inventory Item'}>
                 <form onSubmit={saveItem} className="space-y-4">
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div><label className="block text-sm font-medium text-gray-700 mb-1">Name *</label><input value={itemForm.name} onChange={(e) => setItemForm({ ...itemForm, name: e.target.value })} required className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none" /></div>
                         <div><label className="block text-sm font-medium text-gray-700 mb-1">SKU *</label><input value={itemForm.sku} onChange={(e) => setItemForm({ ...itemForm, sku: e.target.value })} required className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none" /></div>
                     </div>
-                    <div className="grid grid-cols-3 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                         <div><label className="block text-sm font-medium text-gray-700 mb-1">Category</label><input value={itemForm.category} onChange={(e) => setItemForm({ ...itemForm, category: e.target.value })} className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none" /></div>
                         <div><label className="block text-sm font-medium text-gray-700 mb-1">Unit *</label><select value={itemForm.unit} onChange={(e) => setItemForm({ ...itemForm, unit: e.target.value })} required className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none"><option value="kg">kg</option><option value="g">g</option><option value="pcs">pcs</option><option value="ltr">ltr</option><option value="ml">ml</option></select></div>
                         <div><label className="block text-sm font-medium text-gray-700 mb-1">Supplier</label><input value={itemForm.supplier} onChange={(e) => setItemForm({ ...itemForm, supplier: e.target.value })} className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none" /></div>
                     </div>
-                    <div className="grid grid-cols-3 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                         <div><label className="block text-sm font-medium text-gray-700 mb-1">Current Stock</label><input type="number" step="0.01" min="0" value={itemForm.current_stock} onChange={(e) => setItemForm({ ...itemForm, current_stock: parseFloat(e.target.value) || 0 })} className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none" /></div>
                         <div><label className="block text-sm font-medium text-gray-700 mb-1">Min Stock</label><input type="number" step="0.01" min="0" value={itemForm.min_stock} onChange={(e) => setItemForm({ ...itemForm, min_stock: parseFloat(e.target.value) || 0 })} className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none" /></div>
                         <div><label className="block text-sm font-medium text-gray-700 mb-1">Cost/Unit ($)</label><input type="number" step="0.01" min="0" value={itemForm.cost_per_unit} onChange={(e) => setItemForm({ ...itemForm, cost_per_unit: parseFloat(e.target.value) || 0 })} className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none" /></div>
@@ -299,7 +307,7 @@ export default function Inventory() {
                     {poForm.items.map((poItem, i) => (
                         <div key={i} className="bg-gray-50 p-3 rounded-lg space-y-2">
                             <div className="flex justify-between"><span className="text-xs font-medium text-gray-500">Item #{i + 1}</span>{poForm.items.length > 1 && <button type="button" onClick={() => setPoForm({ ...poForm, items: poForm.items.filter((_, idx) => idx !== i) })} className="text-xs text-red-500">Remove</button>}</div>
-                            <div className="grid grid-cols-3 gap-2">
+                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                                 <select value={poItem.inventory_item_id} onChange={(e) => { const next = [...poForm.items]; next[i].inventory_item_id = parseInt(e.target.value); setPoForm({ ...poForm, items: next }); }} required className="px-2 py-1.5 border border-gray-300 rounded text-sm outline-none"><option value="">Item</option>{items.map((inv) => <option key={inv.id} value={inv.id}>{inv.name}</option>)}</select>
                                 <input type="number" step="0.01" min="0.01" placeholder="Qty" value={poItem.quantity} onChange={(e) => { const next = [...poForm.items]; next[i].quantity = e.target.value; setPoForm({ ...poForm, items: next }); }} required className="px-2 py-1.5 border border-gray-300 rounded text-sm outline-none" />
                                 <input type="number" step="0.01" min="0" placeholder="Unit Cost" value={poItem.unit_cost} onChange={(e) => { const next = [...poForm.items]; next[i].unit_cost = e.target.value; setPoForm({ ...poForm, items: next }); }} required className="px-2 py-1.5 border border-gray-300 rounded text-sm outline-none" />

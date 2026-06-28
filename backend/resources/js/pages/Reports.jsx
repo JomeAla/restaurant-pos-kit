@@ -78,6 +78,7 @@ export default function Reports() {
                         <div>
                             <h3 className="text-lg font-semibold text-gray-800 mb-4">Popular Items</h3>
                             {data.length === 0 ? <p className="text-gray-500 text-sm">No data</p> : (
+                                <div className="overflow-x-auto">
                                 <table className="w-full text-sm">
                                     <thead><tr className="border-b text-left"><th className="pb-2 font-medium text-gray-600">Item</th><th className="pb-2 text-right font-medium text-gray-600">Qty Sold</th><th className="pb-2 text-right font-medium text-gray-600">Revenue</th></tr></thead>
                                     <tbody>
@@ -86,6 +87,7 @@ export default function Reports() {
                                         ))}
                                     </tbody>
                                 </table>
+                                </div>
                             )}
                         </div>
                     )}
@@ -114,6 +116,7 @@ export default function Reports() {
                         <div>
                             <h3 className="text-lg font-semibold text-gray-800 mb-4">Staff Performance</h3>
                             {data.length === 0 ? <p className="text-gray-500 text-sm">No data</p> : (
+                                <div className="overflow-x-auto">
                                 <table className="w-full text-sm">
                                     <thead><tr className="border-b text-left"><th className="pb-2 font-medium text-gray-600">Staff</th><th className="pb-2 text-right font-medium text-gray-600">Orders</th><th className="pb-2 text-right font-medium text-gray-600">Total Sales</th><th className="pb-2 text-right font-medium text-gray-600">Avg Order</th></tr></thead>
                                     <tbody>
@@ -122,6 +125,7 @@ export default function Reports() {
                                         ))}
                                     </tbody>
                                 </table>
+                                </div>
                             )}
                         </div>
                     )}

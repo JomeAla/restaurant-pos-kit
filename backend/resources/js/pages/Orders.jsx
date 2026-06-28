@@ -114,6 +114,7 @@ export default function Orders() {
                             )}
                         </div>
 
+                        <div className="overflow-x-auto">
                         <table className="w-full text-sm">
                             <thead>
                                 <tr className="border-b border-gray-100">
@@ -165,6 +166,7 @@ export default function Orders() {
                                 </tr>
                             </tfoot>
                         </table>
+                        </div>
 
                         {selectedOrder.notes && (
                             <div className="mt-4 p-3 bg-gray-50 rounded-lg">
@@ -175,7 +177,8 @@ export default function Orders() {
                     </div>
                 </div>
             ) : (
-                <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                <div className="bg-white rounded-xl shadow-sm border border-gray-100">
+                    <div className="overflow-x-auto">
                     <table className="w-full text-sm">
                         <thead>
                             <tr className="border-b border-gray-100 bg-gray-50">
@@ -204,6 +207,7 @@ export default function Orders() {
                             ))}
                         </tbody>
                     </table>
+                    </div>
                 </div>
             )}
 

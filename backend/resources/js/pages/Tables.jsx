@@ -56,7 +56,7 @@ export default function Tables() {
             )}
             {selectedPlan ? (
                 <div className="relative bg-white rounded-xl shadow-sm border border-gray-100 p-6" style={{ minHeight: '400px' }}>
-                    <div className="grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-8 gap-4">
+                    <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-4">
                         {planTables.length === 0 ? (
                             <p className="col-span-full text-gray-500 text-center py-12">No tables in this floor plan.</p>
                         ) : planTables.map((table) => (
@@ -79,7 +79,7 @@ export default function Tables() {
 
             <Modal open={modalOpen} onClose={() => setModalOpen(false)} title="New Table">
                 <form onSubmit={handleSave} className="space-y-4">
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">Table #</label>
                             <input type="number" value={form.table_number} onChange={(e) => setForm({ ...form, table_number: parseInt(e.target.value) || '' })} required className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none" />
@@ -93,7 +93,7 @@ export default function Tables() {
                         <label className="block text-sm font-medium text-gray-700 mb-1">Section</label>
                         <input value={form.section} onChange={(e) => setForm({ ...form, section: e.target.value })} className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none" placeholder="e.g. Window, Patio, Bar" />
                     </div>
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
                             <select value={form.status} onChange={(e) => setForm({ ...form, status: e.target.value })} className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none">

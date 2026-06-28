@@ -100,8 +100,8 @@ export default function Modifiers() {
                                         </div>
                                         <div className="flex items-center gap-3">
                                             <span className="text-gray-500">{parseFloat(opt.price_adjustment) > 0 ? `+${formatCurrency(opt.price_adjustment)}` : 'Free'}</span>
-                                            <button onClick={() => openOption(mod, opt)} className="text-indigo-500 hover:text-indigo-700 text-xs opacity-0 group-hover:opacity-100">Edit</button>
-                                            <button onClick={() => deleteOption(opt.id)} className="text-red-500 hover:text-red-700 text-xs opacity-0 group-hover:opacity-100">Del</button>
+                                            <button onClick={() => openOption(mod, opt)} className="text-indigo-500 hover:text-indigo-700 text-xs lg:opacity-0 lg:group-hover:opacity-100">Edit</button>
+                                            <button onClick={() => deleteOption(opt.id)} className="text-red-500 hover:text-red-700 text-xs lg:opacity-0 lg:group-hover:opacity-100">Del</button>
                                         </div>
                                     </div>
                                 ))}
@@ -130,7 +130,7 @@ export default function Modifiers() {
                         <input type="checkbox" id="is_required" checked={form.is_required} onChange={(e) => setForm({ ...form, is_required: e.target.checked })} className="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" />
                         <label htmlFor="is_required" className="text-sm text-gray-700">Required</label>
                     </div>
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">Min Selection</label>
                             <input type="number" min="0" value={form.min_selection} onChange={(e) => setForm({ ...form, min_selection: parseInt(e.target.value) || 0 })} className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none" />

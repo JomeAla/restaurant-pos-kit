@@ -87,10 +87,10 @@ export default function SupportTickets() {
                 <button onClick={() => setCreateOpen(true)} className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm font-medium">New Ticket</button>
             </div>
 
-            <div className="flex gap-2 mb-4 border-b">
+            <div className="flex gap-2 mb-4 border-b overflow-x-auto">
                 {tabs.map((tab) => (
                     <button key={tab} onClick={() => setActiveTab(tab)}
-                        className={`px-4 py-2 text-sm font-medium capitalize border-b-2 -mb-px ${activeTab === tab ? 'border-blue-600 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700'}`}>{tab.replace('_', ' ')}</button>
+                        className={`px-4 py-2 text-sm font-medium capitalize border-b-2 -mb-px whitespace-nowrap ${activeTab === tab ? 'border-blue-600 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700'}`}>{tab.replace('_', ' ')}</button>
                 ))}
             </div>
 
@@ -124,7 +124,7 @@ export default function SupportTickets() {
                                 <span className={`px-2 py-0.5 rounded text-xs font-medium ${statusColors[selected.status]}`}>{selected.status.replace('_', ' ')}</span>
                             </div>
                         </div>
-                        <div className="flex gap-2 mt-3">
+                        <div className="flex gap-2 mt-3 flex-wrap">
                             {['open', 'assigned', 'in_progress', 'resolved', 'closed'].map((s) => (
                                 <button key={s} onClick={() => changeStatus(s)} disabled={s === selected.status}
                                     className={`px-3 py-1 text-xs rounded border ${s === selected.status ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : 'hover:bg-gray-50 text-gray-600'}`}>{s.replace('_', ' ')}</button>
