@@ -98,10 +98,10 @@ class SettingsPage extends Page
                 TextInput::make('date_format')->label('Date Format'),
                 TextInput::make('order_prefix')->label('Order Prefix'),
                 Select::make('locale')->label('Language')->options([
-                    'en' => 'English',
-                    'fr' => 'Français',
-                    'es' => 'Español',
-                    'de' => 'Deutsch',
+                    'en' => 'English', 'fr' => 'Français', 'es' => 'Español', 'de' => 'Deutsch',
+                    'pt' => 'Português', 'it' => 'Italiano', 'nl' => 'Nederlands', 'pl' => 'Polski',
+                    'ru' => 'Русский', 'zh' => '中文', 'ja' => '日本語', 'ko' => '한국어',
+                    'ar' => 'العربية', 'tr' => 'Türkçe',
                 ]),
             ])->columns(2),
         ])->statePath('data');

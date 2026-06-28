@@ -10,7 +10,7 @@ export function AuthProvider({ children }) {
     const { i18n } = useTranslation();
 
     const applyLocale = useCallback((locale) => {
-        if (locale && ['en', 'fr', 'es', 'de'].includes(locale)) {
+        if (locale && ['en', 'fr', 'es', 'de', 'pt', 'it', 'nl', 'pl', 'ru', 'zh', 'ja', 'ko', 'ar', 'tr'].includes(locale)) {
             i18n.changeLanguage(locale);
         }
     }, [i18n]);

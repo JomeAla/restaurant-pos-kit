@@ -70,10 +70,20 @@ return [
         'language' => 'Idioma',
     ],
     'languages' => [
-        'en' => 'Inglés',
-        'fr' => 'Francés',
+        'en' => 'English',
+        'fr' => 'Français',
         'es' => 'Español',
-        'de' => 'Alemán',
+        'de' => 'Deutsch',
+        'pt' => 'Português',
+        'it' => 'Italiano',
+        'nl' => 'Nederlands',
+        'pl' => 'Polski',
+        'ru' => 'Русский',
+        'zh' => '中文',
+        'ja' => '日本語',
+        'ko' => '한국어',
+        'ar' => 'العربية',
+        'tr' => 'Türkçe'
     ],
     'order' => [
         'new_order' => 'Nuevo Pedido',

@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useAuth } from '../contexts/AuthContext';
 import { useOffline } from '../hooks/useOffline';
 
-const LANGUAGES = { en: 'English', fr: 'Français', es: 'Español', de: 'Deutsch' };
+const LANGUAGES = { en: 'English', fr: 'Français', es: 'Español', de: 'Deutsch', pt: 'Português', it: 'Italiano', nl: 'Nederlands', pl: 'Polski', ru: 'Русский', zh: '中文', ja: '日本語', ko: '한국어', ar: 'العربية', tr: 'Türkçe' };
 
 const navItems = [
     { to: '/dashboard', labelKey: 'nav.dashboard', icon: '📊', permission: null },
@@ -28,7 +28,6 @@ export default function PosLayout() {
     const navigate = useNavigate();
     const location = useLocation();
     const [sidebarOpen, setSidebarOpen] = useState(false);
-    const [langOpen, setLangOpen] = useState(false);
     const { isOnline, pendingSync } = useOffline();
 
     const handleLogout = async () => {
@@ -71,50 +70,37 @@ export default function PosLayout() {
                         </Link>
                     ))}
                 </nav>
-                <div className="absolute bottom-0 left-0 right-0 border-t border-gray-200">
-                    <div className="p-2 px-4">
-                        <div className="relative">
-                            <button onClick={() => setLangOpen(!langOpen)} className="flex items-center gap-2 text-xs text-gray-500 hover:text-gray-700 w-full py-1">
-                                <span className="text-base">🌐</span>
-                                <span>{LANGUAGES[currentLang] || 'English'}</span>
-                                <svg className={`w-3 h-3 ml-auto transition-transform ${langOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                                </svg>
-                            </button>
-                            {langOpen && (
-                                <div className="absolute bottom-full left-0 right-0 mb-1 bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden">
-                                    {Object.entries(LANGUAGES).map(([code, name]) => (
-                                        <button key={code} onClick={() => { changeLocale(code); setLangOpen(false); }}
-                                            className={`block w-full text-left px-3 py-1.5 text-xs hover:bg-gray-100 ${currentLang === code ? 'bg-indigo-50 text-indigo-700 font-medium' : 'text-gray-600'}`}
-                                        >{name}</button>
-                                    ))}
-                                </div>
-                            )}
-                        </div>
-                    </div>
-                    <div className="p-4 border-t border-gray-200">
-                        <div className="flex items-center justify-between">
-                            <Link to="/profile" onClick={() => setSidebarOpen(false)} className="hover:opacity-80">
-                                <p className="text-sm font-medium text-gray-700">{user?.name}</p>
-                                <p className="text-xs text-gray-500">{user?.role?.name}</p>
-                            </Link>
-                            <button onClick={handleLogout} className="text-sm text-red-600 hover:text-red-800">
-                                {t('nav.logout')}
-                            </button>
-                        </div>
+                <div className="p-4 border-t border-gray-200">
+                    <div className="flex items-center justify-between">
+                        <Link to="/profile" onClick={() => setSidebarOpen(false)} className="hover:opacity-80">
+                            <p className="text-sm font-medium text-gray-700">{user?.name}</p>
+                            <p className="text-xs text-gray-500">{user?.role?.name}</p>
+                        </Link>
+                        <button onClick={handleLogout} className="text-sm text-red-600 hover:text-red-800">
+                            {t('nav.logout')}
+                        </button>
                     </div>
                 </div>
             </aside>
             <div className="flex-1 flex flex-col min-h-screen">
-                <header className="h-16 bg-white border-b border-gray-200 flex items-center px-4 lg:px-6">
-                    <button className="lg:hidden mr-4 text-gray-600" onClick={() => setSidebarOpen(true)}>
+                <header className="h-16 bg-white border-b border-gray-200 flex items-center px-4 lg:px-6 gap-4">
+                    <button className="lg:hidden mr-2 text-gray-600" onClick={() => setSidebarOpen(true)}>
                         <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                         </svg>
                     </button>
-                    <h2 className="text-lg font-semibold text-gray-800 capitalize">
+                    <h2 className="text-lg font-semibold text-gray-800 capitalize flex-1">
                         {location.pathname === '/' ? t('nav.dashboard') : t(`nav.${location.pathname.split('/')[1]}`, location.pathname.split('/')[1])}
                     </h2>
+                    <select
+                        value={currentLang}
+                        onChange={(e) => changeLocale(e.target.value)}
+                        className="text-sm border border-gray-300 rounded-lg px-3 py-1.5 bg-white text-gray-700 focus:ring-2 focus:ring-indigo-500 outline-none cursor-pointer"
+                    >
+                        {Object.entries(LANGUAGES).map(([code, name]) => (
+                            <option key={code} value={code}>{name}</option>
+                        ))}
+                    </select>
                 </header>
                 <main className="flex-1 p-4 lg:p-6 overflow-auto">
                     <Outlet />

@@ -126,14 +126,14 @@ class AuthController extends Controller
     {
         return response()->json([
             'locale' => Setting::getValue('locale', 'en'),
-            'available' => ['en', 'fr', 'es', 'de'],
+            'available' => ['en', 'fr', 'es', 'de', 'pt', 'it', 'nl', 'pl', 'ru', 'zh', 'ja', 'ko', 'ar', 'tr'],
         ]);
     }
 
     public function updateLocale(Request $request): JsonResponse
     {
         $validated = $request->validate([
-            'locale' => 'required|string|in:en,fr,es,de',
+            'locale' => 'required|string|in:en,fr,es,de,pt,it,nl,pl,ru,zh,ja,ko,ar,tr',
         ]);
 
         Setting::setValue('locale', $validated['locale'], 'general');

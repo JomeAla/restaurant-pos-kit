@@ -71,9 +71,19 @@ return [
     ],
     'languages' => [
         'en' => 'English',
-        'fr' => 'French',
-        'es' => 'Spanish',
-        'de' => 'German',
+        'fr' => 'Français',
+        'es' => 'Español',
+        'de' => 'Deutsch',
+        'pt' => 'Português',
+        'it' => 'Italiano',
+        'nl' => 'Nederlands',
+        'pl' => 'Polski',
+        'ru' => 'Русский',
+        'zh' => '中文',
+        'ja' => '日本語',
+        'ko' => '한국어',
+        'ar' => 'العربية',
+        'tr' => 'Türkçe'
     ],
     'order' => [
         'new_order' => 'New Order',
