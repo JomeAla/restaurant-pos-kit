@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import client from '../api/client';
+import { setCurrency } from '../utils/currency';
 
 const AuthContext = createContext(null);
 
@@ -22,6 +23,7 @@ export function AuthProvider({ children }) {
             const { data } = await client.get('/auth/me');
             setUser(data);
             applyLocale(data.locale);
+            if (data.currency) setCurrency(data.currency);
         } catch {
             localStorage.removeItem('token');
             setUser(null);

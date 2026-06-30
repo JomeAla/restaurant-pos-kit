@@ -28,7 +28,7 @@ class InventoryItemResource extends Resource
                 Forms\Components\Select::make('unit')->options(['kg' => 'kg', 'g' => 'g', 'pcs' => 'pcs', 'ltr' => 'ltr', 'ml' => 'ml', 'oz' => 'oz', 'lb' => 'lb'])->required(),
                 Forms\Components\TextInput::make('current_stock')->numeric()->required()->minValue(0),
                 Forms\Components\TextInput::make('min_stock')->numeric()->default(0)->minValue(0),
-                Forms\Components\TextInput::make('cost_per_unit')->numeric()->default(0)->minValue(0)->prefix('$'),
+                Forms\Components\TextInput::make('cost_per_unit')->numeric()->default(0)->minValue(0),
                 Forms\Components\TextInput::make('supplier')->maxLength(255),
             ]);
     }

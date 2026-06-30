@@ -95,6 +95,7 @@ class AuthController extends Controller
     {
         $data = $request->user()->load('role.permissions')->toArray();
         $data['locale'] = Setting::getValue('locale', 'en');
+        $data['currency'] = Setting::getValue('currency', 'USD');
 
         return response()->json($data);
     }
