@@ -17,7 +17,6 @@ import Inventory from '../pages/Inventory';
 import KDS from '../pages/KDS';
 import Orders from '../pages/Orders';
 import PosTerminal from '../pages/PosTerminal';
-import Reports from '../pages/Reports';
 import Reservations from '../pages/Reservations';
 import SettingsPage from '../pages/Settings';
 import SupportTickets from '../pages/SupportTickets';
@@ -42,7 +41,6 @@ export default function App() {
                         <Route path="profile" element={<Profile />} />
                         <Route path="settings" element={<SettingsPage />} />
                         <Route path="inventory" element={<ProtectedRoute permission="menu.view"><Inventory /></ProtectedRoute>} />
-                        <Route path="reports" element={<ProtectedRoute permission="order.view"><Reports /></ProtectedRoute>} />
                         <Route path="reservations" element={<ProtectedRoute permission="order.view"><Reservations /></ProtectedRoute>} />
                         <Route path="tables" element={<ProtectedRoute permission="tables.view"><Tables /></ProtectedRoute>} />
                         <Route path="orders" element={<ProtectedRoute permission="order.view"><Orders /></ProtectedRoute>} />

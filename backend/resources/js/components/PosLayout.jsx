@@ -18,7 +18,6 @@ const navItems = [
     { to: '/tables', labelKey: 'nav.tables', icon: '🪑', permission: 'tables.view' },
     { to: '/orders', labelKey: 'nav.orders', icon: '📋', permission: 'order.view' },
     { to: '/kds', labelKey: 'nav.kds', icon: '👨‍🍳', permission: 'order.view' },
-    { to: '/reports', labelKey: 'nav.reports', icon: '📊', permission: 'order.view' },
     { to: '/settings', labelKey: 'nav.settings', icon: '⚙️', permission: null },
 ];
 
