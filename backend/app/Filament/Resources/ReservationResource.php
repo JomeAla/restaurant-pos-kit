@@ -57,7 +57,7 @@ class ReservationResource extends Resource
             ->defaultSort('date', 'desc')
             ->filters([
                 Tables\Filters\SelectFilter::make('status')->options(['pending' => 'Pending', 'confirmed' => 'Confirmed', 'seated' => 'Seated', 'cancelled' => 'Cancelled']),
-                Tables\Filters\Filter::make('date')->form([Forms\Components\DatePicker::make('date')])->query(fn ($q, $v) => $q->when($v['date'] ?? null, fn ($q) => $q->whereDate('date', $v['date']))),
+                Tables\Filters\Filter::make('date')->form([Forms\Components\DatePicker::make('date')])->query(fn ($query, $state) => $state['date'] ? $query->whereDate('date', $state['date']) : $query),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
