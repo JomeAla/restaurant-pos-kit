@@ -48,7 +48,7 @@ class InventoryItemResource extends Resource
             ->defaultSort('name')
             ->filters([
                 Tables\Filters\SelectFilter::make('category')->options(fn () => InventoryItem::distinct()->whereNotNull('category')->pluck('category', 'category')->toArray()),
-                Tables\Filters\TernaryFilter::make('low_stock')->label('Low Stock')->queries(fn ($q) => [$q->whereColumn('current_stock', '<=', 'min_stock'), $q->whereColumn('current_stock', '>', 'min_stock')]),
+                Tables\Filters\TernaryFilter::make('low_stock')->label('Low Stock')->queries(fn ($q) => $q->whereColumn('current_stock', '<=', 'min_stock'), fn ($q) => $q->whereColumn('current_stock', '>', 'min_stock')),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
